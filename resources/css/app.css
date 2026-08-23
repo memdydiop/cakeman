@@ -1,0 +1,190 @@
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+
+/* Dark mode entièrement désactivé : la variante ne matche jamais, les règles
+   dark: des stubs Flux (vendor) restent compilées mais inertes. */
+@custom-variant dark (&:where(.flux-dark-disabled, .flux-dark-disabled *));
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Fraunces', ui-serif, Georgia, serif;
+
+    --color-cream: #fdf8f0;
+
+    --color-zinc-50: #fafafa;
+    --color-zinc-100: #f5f5f5;
+    --color-zinc-200: #e5e5e5;
+    --color-zinc-300: #d4d4d4;
+    --color-zinc-400: #a3a3a3;
+    --color-zinc-500: #737373;
+    --color-zinc-600: #525252;
+    --color-zinc-700: #404040;
+    --color-zinc-800: #262626;
+    --color-zinc-900: #171717;
+    --color-zinc-950: #0a0a0a;
+
+    --color-accent: var(--color-neutral-800);
+    --color-accent-content: var(--color-neutral-800);
+    --color-accent-foreground: var(--color-white);
+
+    --body-bg: 240 241 247;
+    --sidebar-bg: 17 28 67;
+    --primary: 132 90 223;
+    --primary-rgb: 132, 90, 223;
+    --secondary: 35 183 229;
+    --warning: 245 184 73;
+    --info: 73 182 245;
+    --success: 38 191 148;
+    --danger: 230 83 60;
+    --light: 243 246 248;
+    --dark: 35 35 35;
+    --orange: 255 165 5;
+    --pink: 231 145 188;
+    --teal: 18 194 194;
+    --purple: 137 32 173;
+    --default-text-color: 51 51 53;
+    --default-border: 243 243 243;
+    --default-background: 247 248 249;
+    --menu-prime-color: 83 100 133;
+    --menu-border-color: 243 243 243;
+    --header-prime-color: 83 100 133;
+    --header-border-color: 243 243 243;
+    --bootstrap-card-border: 243 243 243;
+    --list-hover-focus-bg: 245 246 247;
+    --text-muted: 140 144 151;
+    --input-border: 233 237 246;
+    --red: 208 61 70;
+    --blue: 43 62 101;
+    --green: 29 216 113;
+    --cyan: 0 209 209;
+    --indigo: 77 93 219;
+    --gray: 134 153 163;
+    --yellow: 255 193 2;
+    --facebook: 59 89 152;
+    --twitter: 0 172 238;
+    --github: 51 51 51;
+    --google: 207 78 67;
+    --youtube: 255 0 0;
+    --bs-width: 1px;
+    --card-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+
+    --color-body-bg:rgb(var(--body-bg));
+    --color-sidebar-bg:rgb(var(--sidebar-bg));
+
+    --color-primary: rgb(var(--primary));
+    --color-secondary: rgb(var(--secondary));
+    --color-warning: rgb(var(--warning));
+
+    --text-xs:0.78rem;
+
+}
+
+@layer base {
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+*:has(>[data-flux-sidebar]+[data-flux-header]) {
+    grid-template-areas: "sidebar header header"
+                         "sidebar main main"
+                         "sidebar footer footer";
+}
+
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+    @apply grid gap-2;
+}
+
+[data-flux-label] {
+    @apply  mb-0! leading-tight!;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+/* \[:where(&)\]:size-4 {
+    @apply size-4;
+} */
+
+[data-flux-subheading] {
+    @apply text-xs
+}
+
+
+/**  Sidebar **/
+[data-flux-sidebar-item] {
+    @apply relative flex items-center rounded-lg h-10 text-xs font-medium text-[rgb(163_174_209)] hover:bg-white/5 hover:text-white;
+}
+
+
+[data-flux-sidebar-item] svg{
+    @apply size-5
+}
+
+[data-flux-sidebar-item][data-current] {
+    @apply bg-white/5 border-white/5 text-white font-semibold;
+}
+
+
+[data-flux-sidebar-profile] [data-flux-avatar] span{
+    @apply font-semibold text-slate-600 group-hover:text-slate-800!
+}
+
+
+[data-flux-sidebar-profile] span,
+[data-flux-sidebar-profile] svg{
+    @apply text-[rgb(163_174_209)] group-hover:text-white! cursor-pointer
+}
+
+[data-flux-main] {
+    @apply py-0! px-4! bg-body-bg
+}
+
+
+/** Card **/
+[data-flux-card] {
+    @apply p-0 rounded-lg! shadow-(--card-shadow) border-none!
+}
+
+
+/** Table **/
+[data-flux-cell] {
+    @apply py-2
+}
+
+[data-flux-cell] [data-flux-badge]{
+    @apply text-xs rounded px-2! py-0.5!
+}
+
+[data-flux-cell]:last-child [data-flux-menu]{
+    @apply py-1! min-w-0! rounded-md
+}
+
+[data-flux-cell]:last-child button, [data-flux-cell]:last-child a{
+    @apply my-1! p-1! bg-slate-200/70! rounded
+}
+
+[data-flux-cell]:last-child button:first-child, [data-flux-cell]:last-child a:first-child{
+    @apply mt-0!
+}
+
+[data-flux-cell]:last-child button:last-child, [data-flux-cell]:last-child a:last-child{
+    @apply mb-0!
+}
+
+[data-flux-cell]:last-child svg{
+    @apply me-0! text-slate-500! size-3.5!
+}
